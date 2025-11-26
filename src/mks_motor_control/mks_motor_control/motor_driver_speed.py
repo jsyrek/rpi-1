@@ -113,8 +113,8 @@ class MotorDriverSpeed(Node):
         v_l = linear - (angular * self.wheel_separation / 2.0)
         v_r = linear + (angular * self.wheel_separation / 2.0)
         if self.wheel_radius > 0:
-            rpm_left = (v_l / (2.0 * math.pi * self.wheel_radius)) * 60.0 / GEAR_RATIO
-            rpm_right = (v_r / (2.0 * math.pi * self.wheel_radius)) * 60.0 / GEAR_RATIO
+            rpm_left = (v_l / (2.0 * math.pi * self.wheel_radius)) * 60.0 * GEAR_RATIO
+            rpm_right = (v_r / (2.0 * math.pi * self.wheel_radius)) * 60.0 * GEAR_RATIO
         else:
             rpm_left = 0.0
             rpm_right = 0.0
