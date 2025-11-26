@@ -71,12 +71,12 @@ def generate_launch_description():
     )
 
     # ============================================================
-    # 3. Static TF: odom -> map (zamiast SLAM)
+    # 3. Static TF: map -> odom (bez SLAM używamy identity transform)
     # ============================================================
-    static_tf_odom_to_map = Node(
+    static_tf_map_to_odom = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
-        name='static_tf_odom_to_map',
+        name='static_tf_map_to_odom',
         output='screen',
         arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom']
     )
@@ -106,6 +106,6 @@ def generate_launch_description():
         # Nodes
         robot_state_publisher_node,
         motor_driver_node,
-        static_tf_odom_to_map,
+        static_tf_map_to_odom,  # ← POPRAWIONA NAZWA
         nav2_bringup_launch,
     ])
