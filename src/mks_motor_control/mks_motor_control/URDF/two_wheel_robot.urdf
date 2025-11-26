@@ -32,7 +32,7 @@
     <parent link="base_link"/>
     <child link="left_wheel_link"/>
     <!-- Koło przesunięte o 9 cm na lewo na osi Y (odległość połowy odstępu 18 cm) -->
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0.09 0" rpy="0 0 0"/>
     <!-- Oś obrotu koła ustawiona na oś Y (obrót wokół osi Y) -->
     <axis xyz="0 1 0"/>
   </joint>
