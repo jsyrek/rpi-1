@@ -1,0 +1,31 @@
+running develop
+running egg_info
+creating mks_motor_control.egg-info
+writing mks_motor_control.egg-info/PKG-INFO
+writing dependency_links to mks_motor_control.egg-info/dependency_links.txt
+writing entry points to mks_motor_control.egg-info/entry_points.txt
+writing requirements to mks_motor_control.egg-info/requires.txt
+writing top-level names to mks_motor_control.egg-info/top_level.txt
+writing manifest file 'mks_motor_control.egg-info/SOURCES.txt'
+reading manifest file 'mks_motor_control.egg-info/SOURCES.txt'
+writing manifest file 'mks_motor_control.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/jarek/ros2_ws/install/mks_motor_control/lib/python3.10/site-packages/mks-motor-control.egg-link (link to .)
+Installing motor_driver script to /home/jarek/ros2_ws/install/mks_motor_control/lib/mks_motor_control
+Installing motor_driver_speed script to /home/jarek/ros2_ws/install/mks_motor_control/lib/mks_motor_control
+
+Installed /home/jarek/ros2_ws/build/mks_motor_control
+running symlink_data
+creating /home/jarek/ros2_ws/install/mks_motor_control/share/ament_index
+creating /home/jarek/ros2_ws/install/mks_motor_control/share/ament_index/resource_index
+creating /home/jarek/ros2_ws/install/mks_motor_control/share/ament_index/resource_index/packages
+symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/resource/mks_motor_control -> /home/jarek/ros2_ws/install/mks_motor_control/share/ament_index/resource_index/packages
+symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/package.xml -> /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control
+creating /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/launch
+symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/launch/display_robot.launch.py -> /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/launch
+symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/launch/controller_launch.py -> /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/launch
+symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/launch/motor_driver_complete.launch.py -> /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/launch
+creating /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/urdf
+symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/mks_motor_control/URDF/two_wheel_robot.urdf -> /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/urdf
+creating /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/config
+symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/mks_motor_control/config/controller.yaml -> /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/config

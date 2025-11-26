@@ -1,0 +1,70 @@
+[0.000000] (-) TimerEvent: {}
+[0.001375] (mks_motor_control) JobQueued: {'identifier': 'mks_motor_control', 'dependencies': OrderedDict()}
+[0.001738] (mks_motor_control) JobStarted: {'identifier': 'mks_motor_control'}
+[0.098069] (-) TimerEvent: {}
+[0.198674] (-) TimerEvent: {}
+[0.299317] (-) TimerEvent: {}
+[0.399988] (-) TimerEvent: {}
+[0.500645] (-) TimerEvent: {}
+[0.601258] (-) TimerEvent: {}
+[0.701831] (-) TimerEvent: {}
+[0.802403] (-) TimerEvent: {}
+[0.903002] (-) TimerEvent: {}
+[1.003631] (-) TimerEvent: {}
+[1.104239] (-) TimerEvent: {}
+[1.204872] (-) TimerEvent: {}
+[1.305490] (-) TimerEvent: {}
+[1.406102] (-) TimerEvent: {}
+[1.506703] (-) TimerEvent: {}
+[1.607294] (-) TimerEvent: {}
+[1.707891] (-) TimerEvent: {}
+[1.808464] (-) TimerEvent: {}
+[1.909125] (-) TimerEvent: {}
+[2.009718] (-) TimerEvent: {}
+[2.110314] (-) TimerEvent: {}
+[2.211050] (-) TimerEvent: {}
+[2.311669] (-) TimerEvent: {}
+[2.412324] (-) TimerEvent: {}
+[2.513135] (-) TimerEvent: {}
+[2.584395] (mks_motor_control) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/jarek/ros2_ws/build/mks_motor_control/build', '--no-deps', 'symlink_data'], 'cwd': '/home/jarek/ros2_ws/build/mks_motor_control', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'jarek', 'SSH_CLIENT': '10.48.255.1 9302 22', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib', 'MOTD_SHOWN': 'pam', 'HOME': '/home/jarek', 'OLDPWD': '/home/jarek/ros2_ws', 'SSH_TTY': '/dev/pts/1', 'ROS_PYTHON_VERSION': '3', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLCON_PREFIX_PATH': '/home/jarek/ros2_ws/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'jarek', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm', 'XDG_SESSION_ID': '5', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/home/jarek/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': 'localhost:11.0', 'LANG': 'C.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'AMENT_PREFIX_PATH': '/home/jarek/ros2_ws/install/mks_motor_control:/opt/ros/humble', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'PWD': '/home/jarek/ros2_ws/build/mks_motor_control', 'SSH_CONNECTION': '10.48.255.1 9302 10.48.255.10 22', 'XDG_DATA_DIRS': '/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/jarek/ros2_ws/build/mks_motor_control/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jarek/ros2_ws/install/mks_motor_control/lib/python3.10/site-packages:/home/jarek/ros2_ws/build/mks_motor_control:/home/jarek/ros2_ws/install/mks_motor_control/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'COLCON': '1'}, 'shell': False}
+[2.613243] (-) TimerEvent: {}
+[2.713853] (-) TimerEvent: {}
+[2.814512] (-) TimerEvent: {}
+[2.915174] (-) TimerEvent: {}
+[3.015823] (-) TimerEvent: {}
+[3.116390] (-) TimerEvent: {}
+[3.216993] (-) TimerEvent: {}
+[3.317572] (-) TimerEvent: {}
+[3.418155] (-) TimerEvent: {}
+[3.518731] (-) TimerEvent: {}
+[3.619351] (-) TimerEvent: {}
+[3.626359] (mks_motor_control) StdoutLine: {'line': b'running develop\n'}
+[3.719522] (-) TimerEvent: {}
+[3.820118] (-) TimerEvent: {}
+[3.920730] (-) TimerEvent: {}
+[4.021311] (-) TimerEvent: {}
+[4.122057] (-) TimerEvent: {}
+[4.222652] (-) TimerEvent: {}
+[4.238449] (mks_motor_control) StdoutLine: {'line': b'running egg_info\n'}
+[4.239079] (mks_motor_control) StdoutLine: {'line': b'writing mks_motor_control.egg-info/PKG-INFO\n'}
+[4.240203] (mks_motor_control) StdoutLine: {'line': b'writing dependency_links to mks_motor_control.egg-info/dependency_links.txt\n'}
+[4.241092] (mks_motor_control) StdoutLine: {'line': b'writing entry points to mks_motor_control.egg-info/entry_points.txt\n'}
+[4.241918] (mks_motor_control) StdoutLine: {'line': b'writing requirements to mks_motor_control.egg-info/requires.txt\n'}
+[4.242459] (mks_motor_control) StdoutLine: {'line': b'writing top-level names to mks_motor_control.egg-info/top_level.txt\n'}
+[4.249319] (mks_motor_control) StdoutLine: {'line': b"reading manifest file 'mks_motor_control.egg-info/SOURCES.txt'\n"}
+[4.252929] (mks_motor_control) StdoutLine: {'line': b"writing manifest file 'mks_motor_control.egg-info/SOURCES.txt'\n"}
+[4.258425] (mks_motor_control) StdoutLine: {'line': b'running build_ext\n'}
+[4.259148] (mks_motor_control) StdoutLine: {'line': b'Creating /home/jarek/ros2_ws/install/mks_motor_control/lib/python3.10/site-packages/mks-motor-control.egg-link (link to .)\n'}
+[4.262590] (mks_motor_control) StdoutLine: {'line': b'Installing motor_driver script to /home/jarek/ros2_ws/install/mks_motor_control/lib/mks_motor_control\n'}
+[4.263418] (mks_motor_control) StdoutLine: {'line': b'Installing motor_driver_speed script to /home/jarek/ros2_ws/install/mks_motor_control/lib/mks_motor_control\n'}
+[4.264670] (mks_motor_control) StdoutLine: {'line': b'\n'}
+[4.265214] (mks_motor_control) StdoutLine: {'line': b'Installed /home/jarek/ros2_ws/build/mks_motor_control\n'}
+[4.265531] (mks_motor_control) StdoutLine: {'line': b'running symlink_data\n'}
+[4.266119] (mks_motor_control) StdoutLine: {'line': b'symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/launch/nav2_bringup.launch.py -> /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/launch\n'}
+[4.268022] (mks_motor_control) StdoutLine: {'line': b'symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/mks_motor_control/config/nav2_params.yaml -> /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/config\n'}
+[4.268544] (mks_motor_control) StdoutLine: {'line': b'symbolically linking /home/jarek/ros2_ws/build/mks_motor_control/mks_motor_control/config/slam_toolbox.yaml -> /home/jarek/ros2_ws/install/mks_motor_control/share/mks_motor_control/config\n'}
+[4.322950] (-) TimerEvent: {}
+[4.397800] (mks_motor_control) CommandEnded: {'returncode': 0}
+[4.423252] (-) TimerEvent: {}
+[4.454578] (mks_motor_control) JobEnded: {'identifier': 'mks_motor_control', 'rc': 0}
+[4.457401] (-) EventReactorShutdown: {}

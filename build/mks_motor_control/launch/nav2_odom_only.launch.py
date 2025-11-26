@@ -1,0 +1,1 @@
+/home/jarek/ros2_ws/src/mks_motor_control/launch/nav2_odom_only.launch.py
