@@ -12,7 +12,7 @@ import time
 
 MOTOR_IDS = [0x01, 0x02]
 ENCODER_PPR = 16384        # Impulsy na obrót silnika MKS Servo42D
-GEAR_RATIO = 4.875         # Przełożenie silnik:koło JAK U CIEBIE
+GEAR_RATIO = 1.3         # Przełożenie silnik:koło JAK U CIEBIE
 DEFAULT_SPEED = 500
 DEFAULT_ACC = 128
 MAX_SPEED = 4095
@@ -113,8 +113,8 @@ class MotorDriverSpeed(Node):
         v_l = linear - (angular * self.wheel_separation / 2.0)
         v_r = linear + (angular * self.wheel_separation / 2.0)
         if self.wheel_radius > 0:
-            rpm_left = (v_l / (2.0 * math.pi * self.wheel_radius)) * 60.0 * GEAR_RATIO
-            rpm_right = (v_r / (2.0 * math.pi * self.wheel_radius)) * 60.0 * GEAR_RATIO
+            rpm_left = (v_l / (2.0 * math.pi * self.wheel_radius)) * 60.0 / GEAR_RATIO
+            rpm_right = (v_r / (2.0 * math.pi * self.wheel_radius)) * 60.0 / GEAR_RATIO
         else:
             rpm_left = 0.0
             rpm_right = 0.0
