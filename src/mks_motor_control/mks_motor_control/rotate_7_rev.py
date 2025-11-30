@@ -4,7 +4,7 @@ import time
 
 MOTOR_ID = 0x01
 ENCODER_PPR = 16384
-TARGET_IMPULSES = 16384*6.5  # 1 pełny obrót silnika = 360 stopni
+TARGET_IMPULSES = 16384*6.3  # 1 pełny obrót silnika = 360 stopni
 
 def calculate_crc(data, can_id):
     return (can_id + sum(data)) & 0xFF

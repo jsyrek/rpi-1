@@ -65,7 +65,7 @@ class MotorDriverSpeed(Node):
         self.y = 0.0
         self.theta = 0.0
         self.prev_time = self.get_clock().now()
-        self.timer = self.create_timer(0.1, self.publisher_timer_callback)
+        self.timer = self.create_timer(0.02, self.publisher_timer_callback)
 
     def create_speed_command(self, direction, rpm_speed, acc, can_id):
         rpm_speed = max(0, min(int(rpm_speed), MAX_SPEED))
@@ -180,7 +180,6 @@ class MotorDriverSpeed(Node):
 
     def update_odometry(self):
         left_cum = self.read_encoder_cumulative(0x01)
-        time.sleep(0.02)
         right_cum = self.read_encoder_cumulative(0x02)
 
         if left_cum is None or right_cum is None:
