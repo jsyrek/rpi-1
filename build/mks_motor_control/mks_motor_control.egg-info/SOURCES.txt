@@ -9,6 +9,7 @@ launch/nav2_odom_only.launch.py
 mks_motor_control/__init__.py
 mks_motor_control/motor_driver_speed.py
 mks_motor_control/motor_driver_speed_old.py
+mks_motor_control/rotate_7_rev.py
 mks_motor_control.egg-info/PKG-INFO
 mks_motor_control.egg-info/SOURCES.txt
 mks_motor_control.egg-info/dependency_links.txt
