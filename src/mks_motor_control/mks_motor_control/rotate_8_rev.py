@@ -5,7 +5,7 @@ import time
 
 ENCODER_PPR = 16384
 MOTOR_ID = 0x01
-GEAR_RATIO = 6.3*4   # liczba obrotów silnika na 1 obrót koła
+GEAR_RATIO = 6.3   # liczba obrotów silnika na 1 obrót koła
 
 def calculate_crc(data, can_id):
     return (can_id + sum(data)) & 0xFF
