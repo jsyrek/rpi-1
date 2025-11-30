@@ -5,7 +5,7 @@ controller_manager:
 # Parametry robota - używane przez motor_driver_speed
 robot_parameters:
   ros__parameters:
-    wheel_radius: 0.05        # promień koła w metrach (5 cm)
+    wheel_radius: 0.042        # promień koła w metrach (4.2 cm)
     wheel_separation: 0.18    # dystans między kołami w metrach (18 cm)
     encoder_ppr: 16384        # impulsy na obrót enkodera MKS Servo42D
     motor_1_inverted: false   # czy silnik lewy (ID 0x01) ma odwrócony kierunek
@@ -20,7 +20,7 @@ differential_drive_controller:
     right_wheel_names: ["right_wheel_joint"]
     cmd_vel_timeout: 0.5
     wheel_separation: 0.18  # dystans między kołami w metrach
-    wheel_radius: 0.05      # promień koła w metrach
+    wheel_radius: 0.042      # promień koła w metrach
     base_frame_id: "base_link"
     odom_frame_id: "odom"
 

@@ -1,1 +1,49 @@
-/home/jarek/ros2_ws/build/mks_motor_control/mks_motor_control/URDF/two_wheel_robot.urdf
+<robot name="two_wheel_robot">
+
+  <!-- Podwozie -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.4 0.5 0.1"/> <!-- Przykładowe rozmiary podwozia -->
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Lewe koło -->
+  <link name="left_wheel_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.02"/> <!-- Promień 0.05 m to średnica 10 cm -->
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Prawe koło -->
+  <link name="right_wheel_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.02"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Joint lewe koło -->
+  <joint name="left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_link"/>
+    <!-- Koło przesunięte o 9 cm na lewo na osi Y (odległość połowy odstępu 18 cm) -->
+    <origin xyz="0 0.09 0" rpy="0 0 0"/>
+    <!-- Oś obrotu koła ustawiona na oś Y (obrót wokół osi Y) -->
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- Joint prawe koło -->
+  <joint name="right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_link"/>
+    <!-- Koło przesunięte o 9 cm na prawo na osi Y -->
+    <origin xyz="0 -0.09 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+</robot>

@@ -1,1 +1,0 @@
-/home/jarek/ros2_ws/src/mks_motor_control/launch/display_robot.launch.py
