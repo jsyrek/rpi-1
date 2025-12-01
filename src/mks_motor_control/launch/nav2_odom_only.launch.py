@@ -56,18 +56,7 @@ def generate_launch_description():
         package='mks_motor_control',
         executable='motor_driver_speed',
         output='screen',
-        parameters=[
-            controller_config,
-            {
-                'wheel_radius': 0.05,
-                'wheel_separation': 0.18,
-                'motor_1_inverted': False,
-                'motor_2_inverted': True,
-                'odom_frame_id': 'odom',
-                'base_frame_id': 'base_link',
-                'use_sim_time': use_sim_time
-            }
-        ]
+        parameters=[controller_config]
     )
 
     # ============================================================

@@ -16,7 +16,7 @@ GEAR_RATIO = 6.3         # Przełożenie silnik:koło JAK U CIEBIE
 DEFAULT_SPEED = 500
 DEFAULT_ACC = 64
 MAX_SPEED = 4095
-DEFAULT_WHEEL_RADIUS = 0.042        # Promień koła [m]
+DEFAULT_WHEEL_RADIUS = 0.0425        # Promień koła [m]
 DEFAULT_WHEEL_SEPARATION = 0.18    # Rozstaw kół [m]
 
 def calculate_crc(data, can_id):

@@ -13,7 +13,7 @@
   <link name="left_wheel_link">
     <visual>
       <geometry>
-        <cylinder radius="0.042" length="0.01"/> <!-- Promień 0.042 m to średnica 8.4 cm -->
+        <cylinder radius="0.0425" length="0.01"/> <!-- Promień 0.0425 m to średnica 8.4 cm -->
       </geometry>
     </visual>
   </link>
@@ -22,7 +22,7 @@
   <link name="right_wheel_link">
     <visual>
       <geometry>
-        <cylinder radius="0.042" length="0.01"/>
+        <cylinder radius="0.0425" length="0.01"/>
       </geometry>
     </visual>
   </link>
