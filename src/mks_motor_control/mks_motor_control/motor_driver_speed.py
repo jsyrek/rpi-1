@@ -28,7 +28,7 @@ class MotorDriverSpeed(Node):
         self.bus = can.interface.Bus(
             channel='can0',
             interface='socketcan',
-            bitrate=500000,
+            bitrate=1000000,
             receive_own_messages=False
         )
         self.declare_parameter('wheel_radius', DEFAULT_WHEEL_RADIUS)

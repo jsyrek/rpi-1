@@ -3,18 +3,21 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import JointState
 from nav_msgs.msg import Odometry
+from std_srvs.srv import Empty
+from tf2_ros import TransformBroadcaster
+from geometry_msgs.msg import TransformStamped
 import can
 import math
 import time
 
 MOTOR_IDS = [0x01, 0x02]
-ENCODER_PPR = 16384
-GEAR_RATIO = 4.875  # <--- DODAJ TO!
+ENCODER_PPR = 16384        # Impulsy na obrót silnika MKS Servo42D
+GEAR_RATIO = 6.3         # Przełożenie silnik:koło JAK U CIEBIE
 DEFAULT_SPEED = 500
-DEFAULT_ACC = 128
+DEFAULT_ACC = 64
 MAX_SPEED = 4095
-DEFAULT_WHEEL_RADIUS = 0.05
-DEFAULT_WHEEL_SEPARATION = 0.18
+DEFAULT_WHEEL_RADIUS = 0.0425        # Promień koła [m]
+DEFAULT_WHEEL_SEPARATION = 0.18    # Rozstaw kół [m]
 
 def calculate_crc(data, can_id):
     return (can_id + sum(data)) & 0xFF
@@ -28,7 +31,6 @@ class MotorDriverSpeed(Node):
             bitrate=500000,
             receive_own_messages=False
         )
-
         self.declare_parameter('wheel_radius', DEFAULT_WHEEL_RADIUS)
         self.declare_parameter('wheel_separation', DEFAULT_WHEEL_SEPARATION)
         self.declare_parameter('motor_1_inverted', False)
@@ -48,6 +50,10 @@ class MotorDriverSpeed(Node):
         )
         self.joint_state_pub = self.create_publisher(JointState, 'joint_states', 10)
         self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
+        self.reset_odom_srv = self.create_service(
+            Empty, 'reset_odometry', self.reset_odometry_callback
+        )
+        self.tf_broadcaster = TransformBroadcaster(self)
 
         self.prev_left_cum = None
         self.prev_right_cum = None
@@ -59,7 +65,7 @@ class MotorDriverSpeed(Node):
         self.y = 0.0
         self.theta = 0.0
         self.prev_time = self.get_clock().now()
-        self.timer = self.create_timer(0.1, self.publisher_timer_callback)
+        self.timer = self.create_timer(0.02, self.publisher_timer_callback)
 
     def create_speed_command(self, direction, rpm_speed, acc, can_id):
         rpm_speed = max(0, min(int(rpm_speed), MAX_SPEED))
@@ -75,13 +81,10 @@ class MotorDriverSpeed(Node):
         return 'CW' if direction == 'CCW' else 'CCW'
 
     def read_encoder_cumulative(self, motor_id):
-        # WYCZYŚĆ STARY BUFOR przed wysłaniem komendy
         while True:
-            old_msg = self.bus.recv(timeout=0.0)  # non-blocking
+            old_msg = self.bus.recv(timeout=0.0)
             if old_msg is None:
                 break
-        
-        # Wyślij komendę odczytu enkodera
         cmd = [0x31]
         crc = calculate_crc(cmd, motor_id)
         msg = can.Message(
@@ -91,8 +94,6 @@ class MotorDriverSpeed(Node):
             data=bytearray(cmd + [crc])
         )
         self.bus.send(msg)
-        
-        # JEDEN odczyt jak w działającym programie
         reply = self.bus.recv(timeout=1.0)
         if (
             reply is not None
@@ -101,6 +102,8 @@ class MotorDriverSpeed(Node):
         ):
             data = reply.data
             count = (data[1]<<40) | (data[2]<<32) | (data[3]<<24) | (data[4]<<16) | (data[5]<<8) | data[6]
+            if count >= 0x800000000000:
+                count -= 0x1000000000000
             return count
         return None
 
@@ -110,8 +113,8 @@ class MotorDriverSpeed(Node):
         v_l = linear - (angular * self.wheel_separation / 2.0)
         v_r = linear + (angular * self.wheel_separation / 2.0)
         if self.wheel_radius > 0:
-            rpm_left = (v_l / (2.0 * math.pi * self.wheel_radius)) * 60.0
-            rpm_right = (v_r / (2.0 * math.pi * self.wheel_radius)) * 60.0
+            rpm_left = (v_l / (2.0 * math.pi * self.wheel_radius)) * 60.0 * GEAR_RATIO
+            rpm_right = (v_r / (2.0 * math.pi * self.wheel_radius)) * 60.0 * GEAR_RATIO
         else:
             rpm_left = 0.0
             rpm_right = 0.0
@@ -177,7 +180,6 @@ class MotorDriverSpeed(Node):
 
     def update_odometry(self):
         left_cum = self.read_encoder_cumulative(0x01)
-        time.sleep(0.01)  # 10ms przerwy między odczytami
         right_cum = self.read_encoder_cumulative(0x02)
 
         if left_cum is None or right_cum is None:
@@ -197,10 +199,10 @@ class MotorDriverSpeed(Node):
         if self.motor_2_inverted:
             delta_right = -delta_right
 
-        # --- POPRAWKA: uwzględnij przełożenie gear_ratio ---
+        # *** MNOŻENIE przez gear_ratio ***
         delta_left_rad = ((delta_left / ENCODER_PPR) / GEAR_RATIO) * 2.0 * math.pi
         delta_right_rad = ((delta_right / ENCODER_PPR) / GEAR_RATIO) * 2.0 * math.pi
-        # ---------------------------------------------------
+
         self.left_wheel_pos += delta_left_rad
         self.right_wheel_pos += delta_right_rad
 
@@ -224,6 +226,17 @@ class MotorDriverSpeed(Node):
         self.prev_right_cum = right_cum
         self.prev_time = curr_time
 
+    def reset_odometry_callback(self, request, response):
+        self.x = 0.0
+        self.y = 0.0
+        self.theta = 0.0
+        self.left_wheel_pos = 0.0
+        self.right_wheel_pos = 0.0
+        self.prev_left_cum = None
+        self.prev_right_cum = None
+        self.get_logger().info("Odometria zresetowana do (0, 0, 0)")
+        return response
+
     def publisher_timer_callback(self):
         self.update_odometry()
         js = JointState()
@@ -236,7 +249,6 @@ class MotorDriverSpeed(Node):
         odom.header.stamp = self.get_clock().now().to_msg()
         odom.header.frame_id = self.odom_frame_id
         odom.child_frame_id = self.base_frame_id
-
         odom.pose.pose.position.x = self.x
         odom.pose.pose.position.y = self.y
         odom.pose.pose.position.z = 0.0
@@ -266,6 +278,20 @@ class MotorDriverSpeed(Node):
         twist_covariance[35] = 0.01
         odom.twist.covariance = [float(x) for x in twist_covariance]
         self.odom_pub.publish(odom)
+
+        # Publikacja TF odom -> base_link
+        t = TransformStamped()
+        t.header.stamp = self.get_clock().now().to_msg()
+        t.header.frame_id = self.odom_frame_id
+        t.child_frame_id = self.base_frame_id
+        t.transform.translation.x = self.x
+        t.transform.translation.y = self.y
+        t.transform.translation.z = 0.0
+        t.transform.rotation.x = odom.pose.pose.orientation.x
+        t.transform.rotation.y = odom.pose.pose.orientation.y
+        t.transform.rotation.z = odom.pose.pose.orientation.z
+        t.transform.rotation.w = odom.pose.pose.orientation.w
+        self.tf_broadcaster.sendTransform(t)
 
 def main(args=None):
     rclpy.init(args=args)
