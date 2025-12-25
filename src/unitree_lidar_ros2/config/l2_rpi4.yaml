@@ -1,0 +1,7 @@
+unitree_lidar_ros2_node:
+  ros__parameters:
+    initialize_type: 2
+    work_mode: 1
+    cloud_scan_num: 1
+    udp_timeout: 2.0      # kluczowe: 2s zamiast 1s
+    packet_buffer_size: 10000

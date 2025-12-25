@@ -32,6 +32,7 @@ setup(
         'console_scripts': [
             'motor_driver = mks_motor_control.motor_driver:main',
             'motor_driver_speed = mks_motor_control.motor_driver_speed:main',
+            'rotate_robot_360 = mks_motor_control.rotate_robot_360:main',
         ],
     },
 )
