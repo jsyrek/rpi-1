@@ -33,6 +33,7 @@ setup(
             'motor_driver = mks_motor_control.motor_driver:main',
             'motor_driver_speed = mks_motor_control.motor_driver_speed:main',
             'rotate_robot_360 = mks_motor_control.rotate_robot_360:main',
+            'initial_pose_setter = mks_motor_control.initial_pose_setter:main',
         ],
     },
 )
