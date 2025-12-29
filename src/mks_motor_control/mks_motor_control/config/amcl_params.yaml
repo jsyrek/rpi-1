@@ -1,0 +1,67 @@
+amcl:
+  ros__parameters:
+    use_sim_time: False
+    alpha1: 0.2          # Translational movement noise for linear odometry
+    alpha2: 0.2          # Translational movement noise for angular odometry
+    alpha3: 0.2          # Rotational movement noise for linear odometry  
+    alpha4: 0.2          # Rotational movement noise for angular odometry
+    alpha5: 0.2          # Translation noise
+    
+    # Beam and likelihood field model
+    beam_skip_distance: 0.5
+    beam_skip_error_threshold: 0.9
+    beam_skip_threshold: 0.95
+    do_beamskip: false
+    max_beams: 60
+    max_particles: 2000
+    max_range: 4.0
+    min_particles: 500
+    
+    # Laser model and likelihood
+    laser_likelihood_max_dist: 2.0
+    laser_model_type: "likelihood_field_prob"
+    
+    # Map and frame configuration
+    global_frame_id: map
+    base_frame_id: base_link
+    odom_frame_id: odom
+    map_topic: /map
+    
+    # Motion and update models
+    odom_model_type: "omni"
+    tf_broadcast: True
+    
+    # Standard deviations
+    pose_mean_x: 0.0
+    pose_mean_y: 0.0
+    pose_mean_z: 0.0
+    pose_cov_xx: 0.25
+    pose_cov_yy: 0.25
+    pose_cov_zz: 0.1
+    
+    # Particle filter
+    recovery_alpha_fast: 0.0
+    recovery_alpha_slow: 0.0
+    resample_interval: 1
+    save_pose_rate: 0.5
+    sigma_hit: 0.2
+    tj_lambda: 0.1
+    
+    # Update frequency
+    update_min_a: 0.2
+    update_min_d: 0.25
+    z_hit: 0.5
+    z_max: 0.05
+    z_rand: 0.5
+    z_short: 0.05
+    
+    # Transform configuration
+    transform_tolerance: 1.0
+    
+    # Initial pose (will be overridden manually)
+    initial_pose_x: 0.0
+    initial_pose_y: 0.0
+    initial_pose_a: 0.0
+    initial_cov_xx: 0.25
+    initial_cov_yy: 0.25
+    initial_cov_aa: 0.068
