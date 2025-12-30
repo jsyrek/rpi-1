@@ -11,7 +11,7 @@ setup(
         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         # Kopiowanie folderu launch - zmieniamy glob!
-        ('share/' + package_name + '/launch', glob('launch/*.py')),  # <-- zapewnia kopiowanie obu plików *.py
+        ('share/' + package_name + '/launch', glob('launch/*.py')),  # <-- zapewnia kopiowanie wszystkich plików *.py
         # Kopiowanie plików URDF
         ('share/' + package_name + '/urdf', glob('mks_motor_control/URDF/*.urdf')),
         # Kopiowanie plików YAML
@@ -21,7 +21,7 @@ setup(
     zip_safe=True,
     maintainer='jarek',
     maintainer_email='jarek@todo.todo',
-    description='Sterowanie dwukołowym robotem przez CAN z obsługą ROS2_control i Nav2',
+    description='Sterowanie dwukółowym robotem przez CAN z obsługą ROS2_control i Nav2',
     license='MIT',
     extras_require={
         'test': [
@@ -33,6 +33,10 @@ setup(
             'motor_driver = mks_motor_control.motor_driver:main',
             'motor_driver_speed = mks_motor_control.motor_driver_speed:main',
             'rotate_robot_360 = mks_motor_control.rotate_robot_360:main',
+            # Hybrid localization modules
+            'generate_table_map = mks_motor_control.generate_table_map:main',
+            'initialize_robot_on_table = mks_motor_control.initialize_robot_on_table:main',
+            'hybrid_localization = mks_motor_control.hybrid_localization:main',
         ],
     },
 )
