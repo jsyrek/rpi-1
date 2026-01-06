@@ -11,6 +11,7 @@ from geometry_msgs.msg import TransformStamped
 from tf2_ros import TransformBroadcaster
 import math
 import numpy as np
+from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 
 class HybridLocalization(Node):
@@ -33,7 +34,8 @@ class HybridLocalization(Node):
             Odometry, '/odom', self.odom_callback, 10
         )
         self.scan_sub = self.create_subscription(
-            LaserScan, '/scan', self.scan_callback, 10
+            LaserScan, '/scan', self.scan_callback,
+	    QoSProfile(depth=10, reliability=ReliabilityPolicy.BEST_EFFORT)
         )
         
         self.timer = self.create_timer(0.1, self.broadcast_transform)
@@ -93,7 +95,7 @@ class HybridLocalization(Node):
         t = TransformStamped()
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = 'map'
-        t.child_frame_id = 'base_link'
+        t.child_frame_id = 'odom'
         
         t.transform.translation.x = self.x
         t.transform.translation.y = self.y

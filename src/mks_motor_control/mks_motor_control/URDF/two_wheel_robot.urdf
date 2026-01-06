@@ -5,7 +5,7 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <box size="0.4 0.5 0.1"/> <!-- Przykładowe rozmiary podwozia -->
+        <box size="0.4 0.5 0.1"/>
       </geometry>
     </visual>
   </link>
@@ -14,7 +14,7 @@
   <link name="left_wheel_link">
     <visual>
       <geometry>
-        <cylinder radius="0.0425" length="0.01"/> <!-- Promień 0.0425 m to średnica 8.4 cm -->
+        <cylinder radius="0.0425" length="0.01"/>
       </geometry>
     </visual>
   </link>
@@ -32,9 +32,7 @@
   <joint name="left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel_link"/>
-    <!-- Koło przesunięte o 9 cm na lewo na osi Y (odległość połowy odstępu 18 cm) -->
     <origin xyz="0 0.09 0" rpy="0 0 0"/>
-    <!-- Oś obrotu koła ustawiona na oś Y (obrót wokół osi Y) -->
     <axis xyz="0 1 0"/>
   </joint>
 
@@ -42,37 +40,9 @@
   <joint name="right_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="right_wheel_link"/>
-    <!-- Koło przesunięte o 9 cm na prawo na osi Y -->
     <origin xyz="0 -0.09 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
   </joint>
 
-  <!-- ============================================= -->
-  <!-- NOWE: LiDAR Unitree L2 z Pitch 112.5° ===== -->
-  <!-- ============================================= -->
-  
-  <!-- LiDAR Link -->
-  <link name="laser_frame">
-    <visual>
-      <geometry>
-        <cylinder radius="0.04" length="0.05"/> <!-- Wymiary skanera LiDAR -->
-      </geometry>
-    </visual>
-  </link>
-
-  <!-- Joint łączący base_link z laser_frame -->
-  <!-- 
-    PARAMETRY:
-    - xyz="0.1 0.0 0.2": Pozycja LiDAR (10cm do przodu, 0cm w bok, 20cm w górę)
-    - rpy="0 1.9635 0": Roll=0°, Pitch=112.5° (1.9635 radianów), Yaw=0°
-    
-    Pitch 112.5° = Robot widzi nisko pod kątem 112.5° od pionu
-    Idealne dla detekcji krawędzi stołu!
-  -->
-  <joint name="lidar_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="laser_frame"/>
-    <origin xyz="0.1 0.0 0.2" rpy="0 1.9635 0"/>
-  </joint>
-
 </robot>
+

@@ -9,8 +9,8 @@ import os
 
 
 def main():
-    TABLE_WIDTH_MM = 2000
-    TABLE_HEIGHT_MM = 1500
+    TABLE_WIDTH_MM = 1200
+    TABLE_HEIGHT_MM = 500
     RESOLUTION_MM_PER_PX = 50
     EDGE_WIDTH_PX = 2
     ENVIRONMENT_MM = 500
