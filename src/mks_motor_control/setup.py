@@ -1,5 +1,6 @@
 from setuptools import find_packages, setup
 from glob import glob
+import os
 
 package_name = 'mks_motor_control'
 
@@ -10,12 +11,12 @@ setup(
     data_files=[
         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        # Kopiowanie folderu launch - zmieniamy glob!
-        ('share/' + package_name + '/launch', glob('launch/*.py')),  # <-- zapewnia kopiowanie wszystkich plików *.py
+        # Kopiowanie folderu launch - wszystkie pliki .py
+        ('share/' + package_name + '/launch', glob(os.path.join('launch', '*.py'))),
         # Kopiowanie plików URDF
-        ('share/' + package_name + '/urdf', glob('mks_motor_control/URDF/*.urdf')),
+        ('share/' + package_name + '/urdf', glob(os.path.join('mks_motor_control', 'URDF', '*.urdf'))),
         # Kopiowanie plików YAML
-        ('share/' + package_name + '/config', glob('mks_motor_control/config/*.yaml')),
+        ('share/' + package_name + '/config', glob(os.path.join('mks_motor_control', 'config', '*.yaml'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
