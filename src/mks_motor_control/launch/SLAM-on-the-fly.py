@@ -168,6 +168,20 @@ def generate_launch_description():
         ]
     )
 
+    # Lifecycle manager dla SLAM Toolbox
+    # SLAM Toolbox to lifecycle node - musi być aktywowany
+    lifecycle_manager_slam = Node(
+        package='nav2_lifecycle_manager',
+        executable='lifecycle_manager',
+        name='lifecycle_manager_slam',
+        output='screen',
+        parameters=[{
+            'use_sim_time': use_sim_time,
+            'autostart': autostart,
+            'node_names': ['slam_toolbox']
+        }]
+    )
+
     # ============================================================
     # 7. Nav2 Bringup (Navigation Stack)
     # Używa dynamicznie tworzonej mapy z SLAM Toolbox
@@ -221,6 +235,7 @@ def generate_launch_description():
         
         # SLAM & Navigation
         slam_toolbox_node,
+        lifecycle_manager_slam,
         nav2_bringup_launch,
         
         # Visualization (opcjonalnie)
