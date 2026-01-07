@@ -62,11 +62,6 @@ def generate_launch_description():
         'use_rviz',
         default_value='False',
         description='Launch RViz2 for visualization')
-    
-    declare_use_rviz_cmd = DeclareLaunchArgument(
-        'use_rviz',
-        default_value='False',
-        description='Launch RViz2 for visualization')
 
     # ============================================================
     # 1. Robot State Publisher
@@ -139,8 +134,8 @@ def generate_launch_description():
         parameters=[{
             'target_frame': 'unilidar_lidar',
             'transform_tolerance': 0.01,
-            'min_height': -0.5,              # Filtruj punkty poniżej 0.5m (podłoga)
-            'max_height': 0.5,               # Filtruj punkty powyżej 0.5m (sufit)
+            'min_height': -2.0,              # Rozszerzony zakres - LiDAR widzi w dół
+            'max_height': 2.0,               # Rozszerzony zakres - LiDAR widzi w górę
             'angle_min': -3.14159,          # -180°
             'angle_max': 3.14159,           # +180°
             'angle_increment': 0.00872665,  # ~0.5° resolution
