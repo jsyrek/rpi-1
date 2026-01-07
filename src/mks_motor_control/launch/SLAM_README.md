@@ -13,12 +13,40 @@ Launch file `SLAM-on-the-fly.py` uruchamia system nawigacji który:
 
 ### Pakiety ROS2:
 ```bash
+# Instalacja pakietów z apt
 sudo apt install ros-<distro>-pointcloud-to-laserscan
 sudo apt install ros-<distro>-slam-toolbox
 sudo apt install ros-<distro>-rviz2  # Opcjonalnie - tylko do wizualizacji
 ```
 
 **Uwaga:** RViz2 nie jest wymagany do działania systemu - system działa bez niego. RViz2 jest tylko do wizualizacji i debugowania.
+
+### Instalacja pakietu Unitree LiDAR ROS2:
+
+Pakiet `unitree_lidar_ros2` musi być zainstalowany w workspace. Jeśli nie masz go jeszcze:
+
+**Opcja 1: Sklonuj z repozytorium Unitree (jeśli dostępne):**
+```bash
+cd ~/ros2_ws/src
+git clone <unitree_lidar_ros2_repository_url>
+cd ~/ros2_ws
+colcon build --packages-select unitree_lidar_ros2
+source install/setup.bash
+```
+
+**Opcja 2: Jeśli pakiet jest już w workspace ale nie zbudowany:**
+```bash
+cd ~/ros2_ws
+colcon build --packages-select unitree_lidar_ros2
+source install/setup.bash
+```
+
+**Opcja 3: Sprawdź czy pakiet jest już zainstalowany:**
+```bash
+ros2 pkg list | grep unitree_lidar_ros2
+```
+
+Jeśli pakiet nie jest dostępny, sprawdź dokumentację Unitree L2 LiDAR lub skontaktuj się z producentem.
 
 ### Sprzęt:
 - Mini PC z Ubuntu (na robocie)
