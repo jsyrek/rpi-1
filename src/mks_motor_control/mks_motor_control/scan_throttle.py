@@ -60,6 +60,10 @@ class ScanThrottle(Node):
     def scan_callback(self, msg):
         """Zapisz najnowszą wiadomość - timer będzie ją publikował"""
         self.latest_scan = msg
+        # Debug: loguj pierwszą otrzymaną wiadomość
+        if not hasattr(self, '_first_scan_received'):
+            self._first_scan_received = True
+            self.get_logger().info(f'✓ Received first scan from {msg.header.frame_id}')
     
     def timer_callback(self):
         """Publish latest scan if available"""
@@ -80,6 +84,16 @@ class ScanThrottle(Node):
             
             self.publisher.publish(scan_msg)
             self.last_publish_time = self.get_clock().now()
+            
+            # Debug: loguj pierwszą opublikowaną wiadomość
+            if not hasattr(self, '_first_published'):
+                self._first_published = True
+                self.get_logger().info(f'✓ Published first throttled scan')
+        else:
+            # Debug: loguj jeśli nie ma danych
+            if not hasattr(self, '_no_data_warning'):
+                self._no_data_warning = True
+                self.get_logger().warn('⚠ No scan data received yet - waiting for /scan topic')
 
 
 def main(args=None):

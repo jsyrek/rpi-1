@@ -12,7 +12,7 @@ slam_toolbox:
     odom_frame: odom
     map_frame: map
     base_frame: base_link
-    scan_topic: /scan_throttled  # Używa throttled topic (5 Hz) zamiast /scan (72 Hz)
+    scan_topic: /scan  # Tymczasowo używamy /scan bezpośrednio (bez throttlingu) - naprawimy później
     use_map_saver: true
     mode: mapping
 

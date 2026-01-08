@@ -216,7 +216,7 @@ def generate_launch_description():
             slam_params_file,
             {
                 'use_sim_time': use_sim_time,
-                'scan_topic': '/scan_throttled'  # Nadpisuje domyślny /scan - używa throttled topic (5 Hz)
+                'scan_topic': '/scan_throttled'  # Używa throttled topic (5 Hz)
             }
         ]
     )
