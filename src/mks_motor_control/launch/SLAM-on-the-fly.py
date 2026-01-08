@@ -139,9 +139,9 @@ def generate_launch_description():
             'angle_min': -3.14159,          # -180°
             'angle_max': 3.14159,           # +180°
             'angle_increment': 0.00872665,  # ~0.5° resolution
-            'scan_time': 0.1,
+            'scan_time': 0.14,              # ~7 Hz (zamiast ~72 Hz) - zmniejsza obciążenie
             'range_min': 0.05,              # Min odległość 5cm
-            'range_max': 3.0,               # Max odległość 3m (dostosuj do stołu)
+            'range_max': 5.0,               # Max odległość 5m (pomieszczenie + stół)
             'use_inf': True,
             'inf_epsilon': 1.0,
             'concurrency_level': 1
