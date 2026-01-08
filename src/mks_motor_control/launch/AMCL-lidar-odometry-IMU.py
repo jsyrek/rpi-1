@@ -68,12 +68,13 @@ def generate_launch_description():
     # Alternatywnie: uruchom ręcznie przed launch file:
     #   sudo ip link set can0 type can bitrate 1000000
     #   sudo ip link set can0 up
+    # Błędy "Device or resource busy" są ignorowane (CAN już skonfigurowany)
     # ============================================================
     can_init_setup = ExecuteProcess(
-        cmd=['sudo', '-n', 'ip', 'link', 'set', 'can0', 'type', 'can', 'bitrate', '1000000'],
+        cmd=['sh', '-c', 'sudo -n ip link set can0 type can bitrate 1000000 || true'],
         output='screen',
         name='can_setup_bitrate',
-        shell=False
+        shell=True
     )
     
     # Druga komenda uruchamia się z małym opóźnieniem po pierwszej
@@ -81,10 +82,10 @@ def generate_launch_description():
         period=0.5,  # 0.5 sekundy opóźnienia
         actions=[
             ExecuteProcess(
-                cmd=['sudo', '-n', 'ip', 'link', 'set', 'can0', 'up'],
+                cmd=['sh', '-c', 'sudo -n ip link set can0 up || true'],
                 output='screen',
                 name='can_setup_up',
-                shell=False
+                shell=True
             )
         ]
     )
