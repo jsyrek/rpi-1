@@ -64,11 +64,16 @@ def generate_launch_description():
     # ============================================================
     # 0. CAN Interface Initialization (przed wszystkimi node'ami)
     # Inicjalizacja interfejsu CAN dla canable adaptera
+    # Uwaga: Wymaga sudo bez hasła (NOPASSWD) lub uruchom jako root
+    # Alternatywnie: uruchom ręcznie przed launch file:
+    #   sudo ip link set can0 type can bitrate 1000000
+    #   sudo ip link set can0 up
     # ============================================================
     can_init_setup = ExecuteProcess(
-        cmd=['sudo', 'ip', 'link', 'set', 'can0', 'type', 'can', 'bitrate', '1000000'],
+        cmd=['sudo', '-n', 'ip', 'link', 'set', 'can0', 'type', 'can', 'bitrate', '1000000'],
         output='screen',
-        name='can_setup_bitrate'
+        name='can_setup_bitrate',
+        shell=False
     )
     
     # Druga komenda uruchamia się z małym opóźnieniem po pierwszej
@@ -76,9 +81,10 @@ def generate_launch_description():
         period=0.5,  # 0.5 sekundy opóźnienia
         actions=[
             ExecuteProcess(
-                cmd=['sudo', 'ip', 'link', 'set', 'can0', 'up'],
+                cmd=['sudo', '-n', 'ip', 'link', 'set', 'can0', 'up'],
                 output='screen',
-                name='can_setup_up'
+                name='can_setup_up',
+                shell=False
             )
         ]
     )
