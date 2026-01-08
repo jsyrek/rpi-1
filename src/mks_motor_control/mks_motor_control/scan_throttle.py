@@ -6,6 +6,7 @@ Używa timer-based throttling - publikuje co określony czas (np. co 0.2s = 5 Hz
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
+from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
 
 
 class ScanThrottle(Node):
@@ -24,18 +25,25 @@ class ScanThrottle(Node):
         # Throttle period (w sekundach)
         self.throttle_period = 1.0 / throttle_rate
         
+        # QoS - BEST_EFFORT dla kompatybilności z pointcloud_to_laserscan
+        qos_profile = QoSProfile(
+            depth=10,
+            reliability=ReliabilityPolicy.BEST_EFFORT,
+            durability=DurabilityPolicy.VOLATILE
+        )
+        
         # Subscriber i Publisher
         self.subscription = self.create_subscription(
             LaserScan,
             input_topic,
             self.scan_callback,
-            10  # QoS depth - wystarczająco duże dla throttlingu
+            qos_profile  # Użyj BEST_EFFORT QoS dla kompatybilności
         )
         
         self.publisher = self.create_publisher(
             LaserScan,
             output_topic,
-            10
+            qos_profile  # Użyj BEST_EFFORT QoS dla kompatybilności
         )
         
         # Ostatni czas publikacji
