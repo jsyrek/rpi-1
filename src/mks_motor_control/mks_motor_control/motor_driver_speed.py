@@ -65,7 +65,7 @@ class MotorDriverSpeed(Node):
         self.y = 0.0
         self.theta = 0.0
         self.prev_time = self.get_clock().now()
-        self.timer = self.create_timer(0.005, self.publisher_timer_callback)
+        self.timer = self.create_timer(0.02, self.publisher_timer_callback)  # 50 Hz zamiast 200 Hz (zmniejsza obciążenie Message Filter)
 
     def create_speed_command(self, direction, rpm_speed, acc, can_id):
         rpm_speed = max(0, min(int(rpm_speed), MAX_SPEED))
