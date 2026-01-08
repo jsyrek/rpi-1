@@ -23,7 +23,7 @@ ros2 run nav2_map_server map_saver_cli -f ~/maps/my_map
 """
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, TimerAction
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition
@@ -64,45 +64,13 @@ def generate_launch_description():
         description='Launch RViz2 for visualization')
 
     # ============================================================
-    # 0. CAN Interface Initialization (przed wszystkimi node'ami)
-    # Inicjalizacja interfejsu CAN dla canable adaptera
-    # Uwaga: Wymaga sudo bez hasła (NOPASSWD) lub uruchom jako root
-    # Alternatywnie: uruchom ręcznie przed launch file:
-    #   sudo ip link set can0 type can bitrate 1000000
-    #   sudo ip link set can0 up
-    # Błędy "Device or resource busy" są ignorowane (CAN już skonfigurowany)
+    # 2. Motor Driver Speed (z odometrią z CAN bus)
     # ============================================================
-    can_init_setup = ExecuteProcess(
-        cmd=['sh', '-c', 'sudo -n ip link set can0 type can bitrate 1000000 || true'],
+    motor_driver_node = Node(
+        package='mks_motor_control',
+        executable='motor_driver_speed',
         output='screen',
-        name='can_setup_bitrate',
-        shell=True
-    )
-    
-    # Druga komenda uruchamia się z małym opóźnieniem po pierwszej
-    can_init_up = TimerAction(
-        period=0.5,  # 0.5 sekundy opóźnienia
-        actions=[
-            ExecuteProcess(
-                cmd=['sh', '-c', 'sudo -n ip link set can0 up || true'],
-                output='screen',
-                name='can_setup_up',
-                shell=True
-            )
-        ]
-    )
-    
-    # Motor driver startuje z opóźnieniem (po inicjalizacji CAN)
-    motor_driver_node = TimerAction(
-        period=1.5,  # 1.5 sekundy opóźnienia (po CAN setup)
-        actions=[
-            Node(
-                package='mks_motor_control',
-                executable='motor_driver_speed',
-                output='screen',
-                parameters=[controller_config]
-            )
-        ]
+        parameters=[controller_config]
     )
 
     # ============================================================
@@ -277,13 +245,9 @@ def generate_launch_description():
         declare_autostart_cmd,
         declare_use_rviz_cmd,
         
-        # CAN Interface Initialization (pierwsze!)
-        can_init_setup,
-        can_init_up,
-        
         # Core nodes
         robot_state_publisher_node,
-        motor_driver_node,  # Startuje z opóźnieniem po CAN
+        motor_driver_node,
         
         # LiDAR setup
         base_to_lidar_tf,
