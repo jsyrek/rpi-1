@@ -40,8 +40,6 @@ setup(
             'hybrid_localization = mks_motor_control.hybrid_localization:main',
             # Scan throttling
             'scan_throttle = mks_motor_control.scan_throttle:main',
-            # Fake odometry (fallback when motor_driver doesn't work)
-            'fake_odom = mks_motor_control.fake_odom:main',
         ],
     },
 )

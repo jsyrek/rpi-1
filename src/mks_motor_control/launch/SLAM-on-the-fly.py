@@ -104,23 +104,6 @@ def generate_launch_description():
             )
         ]
     )
-    
-    # ============================================================
-    # 1b. Fake Odometry (Fallback dla SLAM Toolbox)
-    # Publikuje podstawową /odom gdy motor_driver nie działa
-    # SLAM Toolbox Message Filter wymaga synchronizacji scan z odom
-    # ============================================================
-    fake_odom_node = Node(
-        package='mks_motor_control',
-        executable='fake_odom',
-        name='fake_odom',
-        output='screen',
-        parameters=[{
-            'odom_frame_id': 'odom',
-            'base_frame_id': 'base_link',
-            'publish_rate': 50.0  # 50 Hz - wystarczająco dla synchronizacji
-        }]
-    )
 
     # ============================================================
     # 1. Robot State Publisher
@@ -300,8 +283,7 @@ def generate_launch_description():
         
         # Core nodes
         robot_state_publisher_node,
-        fake_odom_node,  # Fallback odometry dla SLAM Toolbox
-        motor_driver_node,  # Startuje z opóźnieniem po CAN (nadpisze fake_odom jeśli działa)
+        motor_driver_node,  # Startuje z opóźnieniem po CAN
         
         # LiDAR setup
         base_to_lidar_tf,
