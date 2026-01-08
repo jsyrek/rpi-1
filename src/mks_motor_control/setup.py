@@ -38,6 +38,8 @@ setup(
             'generate_table_map = mks_motor_control.generate_table_map:main',
             'initialize_robot_on_table = mks_motor_control.initialize_robot_on_table:main',
             'hybrid_localization = mks_motor_control.hybrid_localization:main',
+            # Scan throttling
+            'scan_throttle = mks_motor_control.scan_throttle:main',
         ],
     },
 )

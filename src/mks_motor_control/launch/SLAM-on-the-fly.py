@@ -125,6 +125,7 @@ def generate_launch_description():
     # ============================================================
     # 5. PointCloud2 -> LaserScan Converter
     # SLAM Toolbox wymaga LaserScan, a Unitree publikuje PointCloud2
+    # Publikuje na /scan dla Nav2 i scan_throttle node
     # ============================================================
     pointcloud_to_laserscan_node = Node(
         package='pointcloud_to_laserscan',
@@ -139,7 +140,7 @@ def generate_launch_description():
             'angle_min': -3.14159,          # -180°
             'angle_max': 3.14159,           # +180°
             'angle_increment': 0.00872665,  # ~0.5° resolution
-            'scan_time': 0.14,              # ~7 Hz (zamiast ~72 Hz) - zmniejsza obciążenie
+            'scan_time': 0.014,             # ~72 Hz - oryginalna częstotliwość
             'range_min': 0.05,              # Min odległość 5cm
             'range_max': 5.0,               # Max odległość 5m (pomieszczenie + stół)
             'use_inf': True,
@@ -148,14 +149,32 @@ def generate_launch_description():
         }],
         remappings=[
             ('cloud_in', '/unilidar/cloud'),  # Topic z Unitree L2
-            ('scan', '/scan')                  # Topic dla SLAM Toolbox
+            ('scan', '/scan')                  # Topic dla Nav2 i throttling
         ]
+    )
+
+    # ============================================================
+    # 5b. Scan Throttle Node
+    # Redukuje częstotliwość /scan z ~72 Hz do 5 Hz dla SLAM Toolbox
+    # Nav2 nadal używa pełnej częstotliwości /scan dla lepszej reaktywności
+    # ============================================================
+    scan_throttle_node = Node(
+        package='mks_motor_control',
+        executable='scan_throttle',
+        name='scan_throttle',
+        output='screen',
+        parameters=[{
+            'throttle_rate': 5.0,           # 5 Hz - wystarczająco dla SLAM
+            'input_topic': '/scan',
+            'output_topic': '/scan_throttled'
+        }]
     )
 
     # ============================================================
     # 6. SLAM Toolbox (Async Mode - on-the-fly mapping)
     # Tworzy mapę w czasie rzeczywistym podczas poruszania się
     # Publikuje mapę na /map i transform map->odom
+    # Używa throttled /scan_throttled topic (5 Hz zamiast 72 Hz)
     # ============================================================
     slam_toolbox_node = Node(
         package='slam_toolbox',
@@ -164,7 +183,10 @@ def generate_launch_description():
         output='screen',
         parameters=[
             slam_params_file,
-            {'use_sim_time': use_sim_time}
+            {
+                'use_sim_time': use_sim_time,
+                'scan_topic': '/scan_throttled'  # Użyj throttled topic
+            }
         ]
     )
 
@@ -232,6 +254,7 @@ def generate_launch_description():
         base_to_lidar_tf,
         unitree_lidar_node,
         pointcloud_to_laserscan_node,
+        scan_throttle_node,
         
         # SLAM & Navigation
         slam_toolbox_node,
