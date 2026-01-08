@@ -23,7 +23,7 @@ ros2 run nav2_map_server map_saver_cli -f ~/maps/my_map
 """
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition
@@ -64,6 +64,41 @@ def generate_launch_description():
         description='Launch RViz2 for visualization')
 
     # ============================================================
+    # 0. CAN Interface Initialization (przed wszystkimi node'ami)
+    # Inicjalizacja interfejsu CAN dla canable adaptera
+    # ============================================================
+    can_init_setup = ExecuteProcess(
+        cmd=['sudo', 'ip', 'link', 'set', 'can0', 'type', 'can', 'bitrate', '1000000'],
+        output='screen',
+        name='can_setup_bitrate'
+    )
+    
+    # Druga komenda uruchamia się z małym opóźnieniem po pierwszej
+    can_init_up = TimerAction(
+        period=0.5,  # 0.5 sekundy opóźnienia
+        actions=[
+            ExecuteProcess(
+                cmd=['sudo', 'ip', 'link', 'set', 'can0', 'up'],
+                output='screen',
+                name='can_setup_up'
+            )
+        ]
+    )
+    
+    # Motor driver startuje z opóźnieniem (po inicjalizacji CAN)
+    motor_driver_node = TimerAction(
+        period=1.5,  # 1.5 sekundy opóźnienia (po CAN setup)
+        actions=[
+            Node(
+                package='mks_motor_control',
+                executable='motor_driver_speed',
+                output='screen',
+                parameters=[controller_config]
+            )
+        ]
+    )
+
+    # ============================================================
     # 1. Robot State Publisher
     # Publikuje URDF model robota
     # ============================================================
@@ -75,17 +110,6 @@ def generate_launch_description():
             'robot_description': open(urdf_path).read(),
             'use_sim_time': use_sim_time
         }]
-    )
-
-    # ============================================================
-    # 2. Motor Driver Speed (odometria z enkoderów MKS przez CAN)
-    # Publikuje /odom z odometrii kół
-    # ============================================================
-    motor_driver_node = Node(
-        package='mks_motor_control',
-        executable='motor_driver_speed',
-        output='screen',
-        parameters=[controller_config]
     )
 
     # ============================================================
@@ -246,9 +270,13 @@ def generate_launch_description():
         declare_autostart_cmd,
         declare_use_rviz_cmd,
         
+        # CAN Interface Initialization (pierwsze!)
+        can_init_setup,
+        can_init_up,
+        
         # Core nodes
         robot_state_publisher_node,
-        motor_driver_node,
+        motor_driver_node,  # Startuje z opóźnieniem po CAN
         
         # LiDAR setup
         base_to_lidar_tf,
