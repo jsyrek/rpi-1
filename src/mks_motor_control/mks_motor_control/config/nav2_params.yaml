@@ -262,6 +262,14 @@ collision_monitor:
     stop_pub_timeout: 2.0
     enable_stamped_cmd_vel: True
     action_enabled: False
+    polygons: ["PolygonStop"]
+    PolygonStop:
+      type: "polygon"
+      points: "[[0.4, 0.3], [0.4, -0.3], [0.0, -0.3], [0.0, 0.3]]"
+      action_type: "stop"
+      min_points: 4
+      visualize: False
+      polygon_pub_topic: "polygon_stop"
     observation_sources: ["dummy"]
     dummy:
       type: "scan"
