@@ -82,45 +82,55 @@ def generate_launch_description():
         }]
     )
 
-    # PointCloud2 -> LaserScan (minimal config)
-    # target_frame: base_link - simplifies TF chain for SLAM Toolbox
-    # SLAM only needs base_link -> odom (1 transform) instead of unilidar_lidar -> base_link -> odom (2 transforms)
-    pointcloud_to_laserscan_node = Node(
-        package='pointcloud_to_laserscan',
-        executable='pointcloud_to_laserscan_node',
-        name='pointcloud_to_laserscan',
-        output='screen',
-        parameters=[{
-            'target_frame': 'base_link',  # Changed from 'unilidar_lidar' to simplify TF chain
-            'transform_tolerance': 0.5,   # Increased tolerance for TF synchronization
-            'min_height': -2.0,
-            'max_height': 2.0,
-            'angle_min': -3.14159,
-            'angle_max': 3.14159,
-            'angle_increment': 0.00872665,
-            'scan_time': 0.1,
-            'range_min': 0.05,
-            'range_max': 5.0,
-            'use_inf': True,
-            'inf_epsilon': 1.0
-        }],
-        remappings=[
-            ('cloud_in', '/unilidar/cloud'),
-            ('scan', '/scan')
+    # PointCloud2 -> LaserScan - DELAYED by 2 seconds
+    # Gives motor_driver time to start publishing odom -> base_link TF
+    # target_frame: 'unilidar_lidar' means no TF lookup needed (source == target)
+    pointcloud_to_laserscan_node = TimerAction(
+        period=2.0,  # 2 second delay
+        actions=[
+            Node(
+                package='pointcloud_to_laserscan',
+                executable='pointcloud_to_laserscan_node',
+                name='pointcloud_to_laserscan',
+                output='screen',
+                parameters=[{
+                    'target_frame': 'unilidar_lidar',  # Same as cloud frame - no TF needed
+                    'transform_tolerance': 0.1,
+                    'min_height': -2.0,
+                    'max_height': 2.0,
+                    'angle_min': -3.14159,
+                    'angle_max': 3.14159,
+                    'angle_increment': 0.00872665,
+                    'scan_time': 0.1,
+                    'range_min': 0.05,
+                    'range_max': 5.0,
+                    'use_inf': True,
+                    'inf_epsilon': 1.0
+                }],
+                remappings=[
+                    ('cloud_in', '/unilidar/cloud'),
+                    ('scan', '/scan')
+                ]
+            )
         ]
     )
 
-    # Scan Throttle - redukuje częstotliwość /scan z ~72 Hz do 5 Hz
-    scan_throttle_node = Node(
-        package='mks_motor_control',
-        executable='scan_throttle',
-        name='scan_throttle',
-        output='screen',
-        parameters=[{
-            'throttle_rate': 5.0,  # Hz - częstotliwość wyjściowa
-            'input_topic': '/scan',
-            'output_topic': '/scan_throttled'
-        }]
+    # Scan Throttle - DELAYED by 3 seconds (after pointcloud_to_laserscan)
+    scan_throttle_node = TimerAction(
+        period=3.0,
+        actions=[
+            Node(
+                package='mks_motor_control',
+                executable='scan_throttle',
+                name='scan_throttle',
+                output='screen',
+                parameters=[{
+                    'throttle_rate': 5.0,  # Hz
+                    'input_topic': '/scan',
+                    'output_topic': '/scan_throttled'
+                }]
+            )
+        ]
     )
 
     # SLAM Toolbox (standard async mode) - DELAYED by 5 seconds
