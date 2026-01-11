@@ -271,3 +271,5 @@ collision_monitor:
       raytrace_min_range: 0.0
       obstacle_max_range: 2.5
       obstacle_min_range: 0.0
+    # Wymagany parametr - pusta lista jeśli nie używamy polygonów
+    polygons: []
