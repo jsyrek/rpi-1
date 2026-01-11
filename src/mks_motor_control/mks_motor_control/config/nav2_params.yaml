@@ -259,6 +259,7 @@ collision_monitor:
     cmd_vel_out_topic: cmd_vel_safe
     transform_tolerance: 0.1
     action_enabled: False
+    polygons: []
     observation_sources: ["scan"]
     scan:
       topic: /scan
@@ -270,4 +271,3 @@ collision_monitor:
       raytrace_min_range: 0.0
       obstacle_max_range: 2.5
       obstacle_min_range: 0.0
-    polygons: []

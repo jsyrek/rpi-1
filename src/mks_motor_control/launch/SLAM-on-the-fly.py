@@ -65,16 +65,6 @@ def generate_launch_description():
         arguments=['0.1', '0', '0.2', '0', '1.9635', '0', 'base_link', 'unilidar_lidar']
     )
 
-    # Static TF: map -> odom (identity, initial - SLAM Toolbox will override this dynamically)
-    # This ensures 'odom' frame exists in TF tree from the start
-    map_to_odom_tf = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='map_to_odom_initial',
-        output='screen',
-        arguments=['0', '0', '0', '0', '0', '0', 'map', 'odom']
-    )
-
     # Unitree LiDAR
     unitree_lidar_node = Node(
         package='unitree_lidar_ros2',
@@ -174,7 +164,6 @@ def generate_launch_description():
         robot_state_publisher_node,
         motor_driver_node,
         base_to_lidar_tf,
-        map_to_odom_tf,  # Initial static map->odom (SLAM Toolbox will override)
         unitree_lidar_node,
         pointcloud_to_laserscan_node,
         scan_throttle_node,
