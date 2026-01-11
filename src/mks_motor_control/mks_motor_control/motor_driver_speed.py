@@ -129,6 +129,13 @@ class MotorDriverSpeed(Node):
             rpm_left = 0.0
         if abs(rpm_right) < RPM_DEADZONE:
             rpm_right = 0.0
+        
+        # Debug logging (only log first few messages)
+        if not hasattr(self, '_cmd_vel_log_count'):
+            self._cmd_vel_log_count = 0
+        if self._cmd_vel_log_count < 3:
+            self.get_logger().info(f'cmd_vel received: linear={linear:.3f}, angular={angular:.3f}, rpm_left={rpm_left:.1f}, rpm_right={rpm_right:.1f}')
+            self._cmd_vel_log_count += 1
 
         def clamp_rpm(rpm):
             if rpm > 0:
