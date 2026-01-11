@@ -83,14 +83,16 @@ def generate_launch_description():
     )
 
     # PointCloud2 -> LaserScan (minimal config)
+    # target_frame: base_link - simplifies TF chain for SLAM Toolbox
+    # SLAM only needs base_link -> odom (1 transform) instead of unilidar_lidar -> base_link -> odom (2 transforms)
     pointcloud_to_laserscan_node = Node(
         package='pointcloud_to_laserscan',
         executable='pointcloud_to_laserscan_node',
         name='pointcloud_to_laserscan',
         output='screen',
         parameters=[{
-            'target_frame': 'unilidar_lidar',
-            'transform_tolerance': 0.1,
+            'target_frame': 'base_link',  # Changed from 'unilidar_lidar' to simplify TF chain
+            'transform_tolerance': 0.5,   # Increased tolerance for TF synchronization
             'min_height': -2.0,
             'max_height': 2.0,
             'angle_min': -3.14159,
