@@ -65,14 +65,15 @@ def generate_launch_description():
         arguments=['0.1', '0', '0.2', '0', '1.9635', '0', 'base_link', 'unilidar_lidar']
     )
 
-    # Static TF: world -> odom (identity) - ensures odom frame exists in TF tree
-    # This helps SLAM Toolbox find the odom frame before motor_driver starts publishing
-    world_to_odom_tf = Node(
+    # Static TF: odom -> base_link (identity) - CRITICAL fallback when motor_driver doesn't publish TF
+    # This ensures the TF tree is connected even without CAN/encoders
+    # motor_driver_speed will override this with dynamic TF when working
+    odom_to_base_link_tf = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
-        name='world_to_odom',
+        name='odom_to_base_link_static',
         output='screen',
-        arguments=['0', '0', '0', '0', '0', '0', 'world', 'odom']
+        arguments=['0', '0', '0', '0', '0', '0', 'odom', 'base_link']
     )
 
     # Unitree LiDAR
@@ -202,7 +203,7 @@ def generate_launch_description():
         robot_state_publisher_node,
         motor_driver_node,
         base_to_lidar_tf,
-        world_to_odom_tf,  # Ensures odom frame exists early
+        odom_to_base_link_tf,  # CRITICAL: connects odom -> base_link when motor_driver fails
         unitree_lidar_node,
         pointcloud_to_laserscan_node,
         scan_throttle_node,
