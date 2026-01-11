@@ -108,6 +108,19 @@ def generate_launch_description():
         ]
     )
 
+    # Scan Throttle - redukuje częstotliwość /scan z ~72 Hz do 5 Hz
+    scan_throttle_node = Node(
+        package='mks_motor_control',
+        executable='scan_throttle',
+        name='scan_throttle',
+        output='screen',
+        parameters=[{
+            'throttle_rate': 5.0,  # Hz - częstotliwość wyjściowa
+            'input_topic': '/scan',
+            'output_topic': '/scan_throttled'
+        }]
+    )
+
     # SLAM Toolbox (standard async mode)
     slam_toolbox_node = Node(
         package='slam_toolbox',
@@ -153,6 +166,7 @@ def generate_launch_description():
         base_to_lidar_tf,
         unitree_lidar_node,
         pointcloud_to_laserscan_node,
+        scan_throttle_node,
         slam_toolbox_node,
         lifecycle_manager_slam,
         nav2_bringup_launch,
