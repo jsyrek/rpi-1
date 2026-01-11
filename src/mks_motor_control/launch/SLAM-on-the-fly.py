@@ -49,6 +49,9 @@ def generate_launch_description():
     )
 
     # Motor Driver
+    # NOTE: motor_driver_speed subscribes to /cmd_vel
+    # Nav2 controller_server publishes to /cmd_vel, so motor_driver will receive commands from Nav2
+    # If Nav2 is not active, you can publish directly to /cmd_vel
     motor_driver_node = Node(
         package='mks_motor_control',
         executable='motor_driver_speed',

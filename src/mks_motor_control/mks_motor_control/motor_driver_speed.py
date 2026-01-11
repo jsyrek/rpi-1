@@ -44,9 +44,11 @@ class MotorDriverSpeed(Node):
         self.motor_2_inverted = self.get_parameter('motor_2_inverted').value
         self.odom_frame_id = self.get_parameter('odom_frame_id').value
         self.base_frame_id = self.get_parameter('base_frame_id').value
+        self.declare_parameter('cmd_vel_topic', 'cmd_vel')  # Default: cmd_vel, but can be remapped to cmd_vel_safe for Nav2
+        cmd_vel_topic = self.get_parameter('cmd_vel_topic').value
 
         self.subscription = self.create_subscription(
-            Twist, 'cmd_vel', self.cmd_vel_callback, 10
+            Twist, cmd_vel_topic, self.cmd_vel_callback, 10
         )
         self.joint_state_pub = self.create_publisher(JointState, 'joint_states', 10)
         self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
