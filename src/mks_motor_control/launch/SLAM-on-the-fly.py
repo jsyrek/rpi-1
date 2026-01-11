@@ -193,9 +193,7 @@ def generate_launch_description():
                 launch_arguments={
                     'use_sim_time': use_sim_time,
                     'autostart': autostart,
-                    'params_file': nav2_params_file,
-                    # Disable collision_monitor to bypass polygons param crash
-                    'use_collision_monitor': 'False'
+                    'params_file': nav2_params_file
                 }.items()
             )
         ]

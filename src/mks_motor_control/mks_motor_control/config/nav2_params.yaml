@@ -250,24 +250,5 @@ velocity_smoother:
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
 
-collision_monitor:
-  ros__parameters:
-    use_sim_time: False
-    base_frame_id: base_link
-    odom_frame_id: odom
-    cmd_vel_in_topic: cmd_vel
-    cmd_vel_out_topic: cmd_vel_safe
-    transform_tolerance: 0.1
-    action_enabled: False
-    polygons: []
-    observation_sources: ["scan"]
-    scan:
-      topic: /scan
-      max_obstacle_height: 2.0
-      clearing: True
-      marking: True
-      data_type: "LaserScan"
-      raytrace_max_range: 3.0
-      raytrace_min_range: 0.0
-      obstacle_max_range: 2.5
-      obstacle_min_range: 0.0
+# collision_monitor removed - causes polygons param crash
+# Nav2 will use default settings or skip this node
