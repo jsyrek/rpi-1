@@ -9,17 +9,6 @@ bt_navigator:
     enable_groot_monitoring: True
     groot_zmq_publisher_port: 1666
     groot_zmq_server_port: 1667
-
-    # --- DODANE: navigator plugins (to wystawia /navigate_to_pose) ---
-    navigators: ['navigate_to_pose', 'navigate_through_poses']
-
-    navigate_to_pose:
-      plugin: "nav2_bt_navigator::NavigateToPoseNavigator"
-
-    navigate_through_poses:
-      plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"
-    # ---------------------------------------------------------------
-
     plugin_lib_names:
     - nav2_compute_path_to_pose_action_bt_node
     - nav2_compute_path_through_poses_action_bt_node
@@ -260,36 +249,3 @@ velocity_smoother:
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
-
-collision_monitor:
-  ros__parameters:
-    use_sim_time: False
-    base_frame_id: base_link
-    odom_frame_id: odom
-    cmd_vel_in_topic: cmd_vel
-    cmd_vel_out_topic: cmd_vel_safe
-    transform_tolerance: 0.1
-    source_timeout: 5.0
-    stop_pub_timeout: 2.0
-    enable_stamped_cmd_vel: True
-    action_enabled: False
-    polygons: ["PolygonStop"]
-    PolygonStop:
-      type: "polygon"
-      points: "[[0.4, 0.3], [0.4, -0.3], [0.0, -0.3], [0.0, 0.3]]"
-      action_type: "stop"
-      min_points: 4
-      visualize: False
-      polygon_pub_topic: "polygon_stop"
-    observation_sources: ["dummy"]
-    dummy:
-      type: "scan"
-      topic: "/scan"
-      max_obstacle_height: 2.0
-      clearing: True
-      marking: True
-      data_type: "LaserScan"
-      raytrace_max_range: 3.0
-      raytrace_min_range: 0.0
-      obstacle_max_range: 2.5
-      obstacle_min_range: 0.0
