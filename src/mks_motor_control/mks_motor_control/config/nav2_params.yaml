@@ -259,6 +259,7 @@ collision_monitor:
     cmd_vel_out_topic: cmd_vel_safe
     transform_tolerance: 0.1
     action_enabled: False
+    polygons: []
     observation_sources: ["scan"]
     scan:
       topic: /scan
