@@ -40,6 +40,8 @@ setup(
             'hybrid_localization = mks_motor_control.hybrid_localization:main',
             # Scan throttling
             'scan_throttle = mks_motor_control.scan_throttle:main',
+            # Nav2 navigation helper
+            'move_forward = mks_motor_control.move_forward:main',
         ],
     },
 )
