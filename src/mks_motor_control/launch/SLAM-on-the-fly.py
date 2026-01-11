@@ -133,7 +133,7 @@ def generate_launch_description():
         output='screen',
         parameters=[{
             'target_frame': 'unilidar_lidar',
-            'transform_tolerance': 0.01,
+            'transform_tolerance': 0.5,  # Zwiększone - więcej czasu na synchronizację TF
             'min_height': -2.0,              # Rozszerzony zakres - LiDAR widzi w dół
             'max_height': 2.0,               # Rozszerzony zakres - LiDAR widzi w górę
             'angle_min': -3.14159,          # -180°
