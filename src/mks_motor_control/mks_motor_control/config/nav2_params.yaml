@@ -253,3 +253,4 @@ velocity_smoother:
 collision_monitor:
   ros__parameters:
     enabled: False
+    observation_sources: []
