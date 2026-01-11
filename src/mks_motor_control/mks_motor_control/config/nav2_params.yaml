@@ -249,3 +249,18 @@ velocity_smoother:
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
+
+collision_monitor:
+  ros__parameters:
+    use_sim_time: False
+    base_frame_id: base_link
+    odom_frame_id: odom
+    cmd_vel_in_topic: cmd_vel
+    cmd_vel_out_topic: cmd_vel_safe
+    transform_tolerance: 0.1
+    source_timeout: 5.0
+    stop_pub_timeout: 2.0
+    enable_stamped_cmd_vel: True
+    action_enabled: False
+    polygons: []
+    observation_sources: []
