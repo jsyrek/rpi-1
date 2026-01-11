@@ -56,13 +56,15 @@ def generate_launch_description():
         parameters=[controller_config]
     )
 
-    # Static TF: base_link -> unilidar_lidar
-    base_to_lidar_tf = Node(
+    # Static TF: base_link -> unilidar_imu_initial
+    # NOTE: unitree_lidar publishes unilidar_imu_initial -> unilidar_imu -> unilidar_lidar,
+    # so we connect our robot base to the root (unilidar_imu_initial) to avoid double parents.
+    base_to_imu_tf = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
-        name='base_to_unilidar_lidar',
+        name='base_to_unilidar_imu_initial',
         output='screen',
-        arguments=['0.1', '0', '0.2', '0', '1.9635', '0', 'base_link', 'unilidar_lidar']
+        arguments=['0.1', '0', '0.2', '0', '1.9635', '0', 'base_link', 'unilidar_imu_initial']
     )
 
     # Static TF: odom -> base_link (identity) - CRITICAL fallback when motor_driver doesn't publish TF
@@ -202,7 +204,7 @@ def generate_launch_description():
         declare_autostart_cmd,
         robot_state_publisher_node,
         motor_driver_node,
-        base_to_lidar_tf,
+        base_to_imu_tf,
         odom_to_base_link_tf,  # CRITICAL: connects odom -> base_link when motor_driver fails
         unitree_lidar_node,
         pointcloud_to_laserscan_node,
