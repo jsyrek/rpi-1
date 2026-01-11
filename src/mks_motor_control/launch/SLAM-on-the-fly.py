@@ -4,7 +4,7 @@ Uses standard Nav2 bringup with SLAM Toolbox
 """
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -121,41 +121,57 @@ def generate_launch_description():
         }]
     )
 
-    # SLAM Toolbox (standard async mode)
-    slam_toolbox_node = Node(
-        package='slam_toolbox',
-        executable='async_slam_toolbox_node',
-        name='slam_toolbox',
-        output='screen',
-        parameters=[
-            slam_params_file,
-            {'use_sim_time': use_sim_time}
+    # SLAM Toolbox (standard async mode) - DELAYED by 5 seconds
+    # Delay allows TF tree to initialize (odom -> base_link needs time to be visible)
+    slam_toolbox_node = TimerAction(
+        period=5.0,  # 5 second delay for TF initialization
+        actions=[
+            Node(
+                package='slam_toolbox',
+                executable='async_slam_toolbox_node',
+                name='slam_toolbox',
+                output='screen',
+                parameters=[
+                    slam_params_file,
+                    {'use_sim_time': use_sim_time}
+                ]
+            )
         ]
     )
 
-    # SLAM Lifecycle Manager
-    lifecycle_manager_slam = Node(
-        package='nav2_lifecycle_manager',
-        executable='lifecycle_manager',
-        name='lifecycle_manager_slam',
-        output='screen',
-        parameters=[{
-            'use_sim_time': use_sim_time,
-            'autostart': autostart,
-            'node_names': ['slam_toolbox']
-        }]
+    # SLAM Lifecycle Manager - DELAYED by 6 seconds (after slam_toolbox)
+    lifecycle_manager_slam = TimerAction(
+        period=6.0,  # Start after slam_toolbox
+        actions=[
+            Node(
+                package='nav2_lifecycle_manager',
+                executable='lifecycle_manager',
+                name='lifecycle_manager_slam',
+                output='screen',
+                parameters=[{
+                    'use_sim_time': use_sim_time,
+                    'autostart': autostart,
+                    'node_names': ['slam_toolbox']
+                }]
+            )
+        ]
     )
 
-    # Nav2 Bringup (standard vanilla)
-    nav2_bringup_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(nav2_bringup_dir, 'launch', 'navigation_launch.py')
-        ),
-        launch_arguments={
-            'use_sim_time': use_sim_time,
-            'autostart': autostart,
-            'params_file': nav2_params_file
-        }.items()
+    # Nav2 Bringup (standard vanilla) - DELAYED by 8 seconds
+    nav2_bringup_launch = TimerAction(
+        period=8.0,  # Start after SLAM is ready
+        actions=[
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(nav2_bringup_dir, 'launch', 'navigation_launch.py')
+                ),
+                launch_arguments={
+                    'use_sim_time': use_sim_time,
+                    'autostart': autostart,
+                    'params_file': nav2_params_file
+                }.items()
+            )
+        ]
     )
 
     return LaunchDescription([
