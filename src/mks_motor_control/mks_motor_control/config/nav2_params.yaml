@@ -262,7 +262,6 @@ collision_monitor:
     stop_pub_timeout: 2.0
     enable_stamped_cmd_vel: True
     action_enabled: False
-    polygons: []
     observation_sources: ["dummy"]
     dummy:
       type: "scan"
