@@ -65,6 +65,16 @@ def generate_launch_description():
         arguments=['0.1', '0', '0.2', '0', '1.9635', '0', 'base_link', 'unilidar_lidar']
     )
 
+    # Static TF: world -> odom (identity) - ensures odom frame exists in TF tree
+    # This helps SLAM Toolbox find the odom frame before motor_driver starts publishing
+    world_to_odom_tf = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='world_to_odom',
+        output='screen',
+        arguments=['0', '0', '0', '0', '0', '0', 'world', 'odom']
+    )
+
     # Unitree LiDAR
     unitree_lidar_node = Node(
         package='unitree_lidar_ros2',
@@ -133,10 +143,10 @@ def generate_launch_description():
         ]
     )
 
-    # SLAM Toolbox (standard async mode) - DELAYED by 5 seconds
-    # Delay allows TF tree to initialize (odom -> base_link needs time to be visible)
+    # SLAM Toolbox (standard async mode) - DELAYED by 10 seconds
+    # Delay allows TF tree to fully initialize (odom -> base_link needs time to be visible)
     slam_toolbox_node = TimerAction(
-        period=5.0,  # 5 second delay for TF initialization
+        period=10.0,  # 10 second delay for TF initialization
         actions=[
             Node(
                 package='slam_toolbox',
@@ -151,9 +161,9 @@ def generate_launch_description():
         ]
     )
 
-    # SLAM Lifecycle Manager - DELAYED by 6 seconds (after slam_toolbox)
+    # SLAM Lifecycle Manager - DELAYED by 12 seconds (after slam_toolbox)
     lifecycle_manager_slam = TimerAction(
-        period=6.0,  # Start after slam_toolbox
+        period=12.0,  # Start after slam_toolbox
         actions=[
             Node(
                 package='nav2_lifecycle_manager',
@@ -169,9 +179,9 @@ def generate_launch_description():
         ]
     )
 
-    # Nav2 Bringup (standard vanilla) - DELAYED by 8 seconds
+    # Nav2 Bringup (standard vanilla) - DELAYED by 15 seconds
     nav2_bringup_launch = TimerAction(
-        period=8.0,  # Start after SLAM is ready
+        period=15.0,  # Start after SLAM is ready
         actions=[
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(
@@ -192,6 +202,7 @@ def generate_launch_description():
         robot_state_publisher_node,
         motor_driver_node,
         base_to_lidar_tf,
+        world_to_odom_tf,  # Ensures odom frame exists early
         unitree_lidar_node,
         pointcloud_to_laserscan_node,
         scan_throttle_node,
