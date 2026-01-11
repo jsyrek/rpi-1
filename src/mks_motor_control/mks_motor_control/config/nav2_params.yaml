@@ -249,6 +249,3 @@ velocity_smoother:
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
-
-# collision_monitor removed - causes polygons param crash
-# Nav2 will use default settings or skip this node
