@@ -64,7 +64,7 @@ def generate_launch_description():
         executable='static_transform_publisher',
         name='base_to_unilidar_imu_initial',
         output='screen',
-        arguments=['0.1', '0', '0.2', '0', '1.9635', '0', 'base_link', 'unilidar_imu_initial']
+        arguments=['0.1', '0', '0.2', '1.9635', '0', '0', 'base_link', 'unilidar_imu_initial']  # x y z yaw pitch roll: yaw=112.5° (1.9635 rad) around Z-axis
     )
 
     # Static TF: odom -> base_link (identity) - CRITICAL fallback when motor_driver doesn't publish TF
