@@ -81,20 +81,23 @@ class MotorDriverSpeed(Node):
         return 'CW' if direction == 'CCW' else 'CCW'
 
     def read_encoder_cumulative(self, motor_id):
-        while True:
-            old_msg = self.bus.recv(timeout=0.0)
-            if old_msg is None:
-                break
-        cmd = [0x31]
-        crc = calculate_crc(cmd, motor_id)
-        msg = can.Message(
-            arbitration_id=motor_id,
-            is_extended_id=False,
-            dlc=2,
-            data=bytearray(cmd + [crc])
-        )
-        self.bus.send(msg)
-        reply = self.bus.recv(timeout=1.0)
+        try:
+            while True:
+                old_msg = self.bus.recv(timeout=0.0)
+                if old_msg is None:
+                    break
+            cmd = [0x31]
+            crc = calculate_crc(cmd, motor_id)
+            msg = can.Message(
+                arbitration_id=motor_id,
+                is_extended_id=False,
+                dlc=2,
+                data=bytearray(cmd + [crc])
+            )
+            self.bus.send(msg)
+            reply = self.bus.recv(timeout=1.0)
+        except Exception:
+            return None  # Return None if CAN bus error - TF will still be published
         if (
             reply is not None
             and reply.arbitration_id == motor_id
@@ -238,7 +241,14 @@ class MotorDriverSpeed(Node):
         return response
 
     def publisher_timer_callback(self):
-        self.update_odometry()
+        # Wrap update_odometry in try-except to ensure TF is ALWAYS published
+        # even if CAN bus has errors
+        try:
+            self.update_odometry()
+        except Exception as e:
+            if not hasattr(self, '_odom_error_logged'):
+                self._odom_error_logged = True
+                self.get_logger().warning(f'Odometry update error (TF still published): {e}')
         js = JointState()
         js.header.stamp = self.get_clock().now().to_msg()
         js.name = ['left_wheel_joint', 'right_wheel_joint']
