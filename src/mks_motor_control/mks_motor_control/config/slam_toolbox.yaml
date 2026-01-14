@@ -71,3 +71,5 @@ slam_toolbox:
     minimum_angle_penalty: 0.9
     minimum_distance_penalty: 0.5
     use_response_expansion: true
+    # ⭐ FIX: Bond timeout - SLAM Toolbox potrzebuje więcej czasu na inicjalizację
+    bond_timeout: 10.0

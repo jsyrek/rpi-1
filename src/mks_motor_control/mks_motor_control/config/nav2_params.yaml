@@ -16,8 +16,8 @@ bt_navigator:
     navigate_through_poses:
       plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"
     plugin_lib_names:
-    - nav2_compute_path_to_pose_action_bt_node
-    - nav2_compute_path_through_poses_action_bt_node
+    # ⭐ USUNIĘTE: nav2_compute_path_to_pose_action_bt_node i nav2_compute_path_through_poses_action_bt_node
+    # są automatycznie ładowane przez navigators (sekcja navigators powyżej), nie mogą być tutaj (konflikt!)
     - nav2_smooth_path_action_bt_node
     - nav2_follow_path_action_bt_node
     - nav2_spin_action_bt_node
