@@ -15,8 +15,7 @@ bt_navigator:
       plugin: "nav2_bt_navigator::NavigateToPoseNavigator"
     navigate_through_poses:
       plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"
-    # ⭐ PUSTA LISTA - standardowe BT node'y są już automatycznie załadowane przez navigators
-    plugin_lib_names: []
+    # ⭐ plugin_lib_names nie jest potrzebne gdy używamy sekcji navigators
 
 controller_server:
   ros__parameters:
