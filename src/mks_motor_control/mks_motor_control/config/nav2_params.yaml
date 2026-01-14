@@ -21,10 +21,11 @@ bt_navigator:
     # - nav2_compute_path_through_poses_action_bt_node (auto-loaded)  
     # - nav2_smooth_path_action_bt_node (auto-loaded - ID [SmoothPath] already registered)
     # - nav2_follow_path_action_bt_node (auto-loaded - powoduje konflikt)
-    - nav2_spin_action_bt_node
-    - nav2_wait_action_bt_node
-    - nav2_back_up_action_bt_node
-    - nav2_drive_on_heading_bt_node
+    # ⭐ USUNIĘTE: Behavior pluginy - są używane przez behavior_server, nie przez bt_navigator (ID [Spin] already registered)
+    # - nav2_spin_action_bt_node (używane przez behavior_server)
+    # - nav2_wait_action_bt_node (używane przez behavior_server)
+    # - nav2_back_up_action_bt_node (używane przez behavior_server)
+    # - nav2_drive_on_heading_bt_node (używane przez behavior_server)
     - nav2_clear_costmap_service_bt_node
     - nav2_is_stuck_condition_bt_node
     - nav2_goal_reached_condition_bt_node
