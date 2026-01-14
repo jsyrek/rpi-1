@@ -189,7 +189,7 @@ def generate_launch_description():
                     'use_sim_time': use_sim_time,
                     'autostart': autostart,
                     'node_names': ['slam_toolbox'],
-                    'bond_timeout': 120.0  # ⭐ Zwiększony do 120s tymczasowo - test czy to timeout issue
+                    'bond_timeout': 60.0  # ⭐ Zwiększony do 60s - SLAM Toolbox potrzebuje więcej czasu
                 }]
             )
         ]
