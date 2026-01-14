@@ -286,3 +286,11 @@ collision_monitor:
       min_points: 3
       enabled: False  # Wyłączone, bo collision_monitor jest wyłączony
       visualize: false
+
+lifecycle_manager:
+  ros__parameters:
+    autostart: true
+    node_names: ['controller_server', 'smoother_server', 'planner_server', 'behavior_server', 'bt_navigator', 'waypoint_follower', 'velocity_smoother', 'collision_monitor']
+    bond_timeout: 10.0  # ⭐ Zwiększony z domyślnych 4.0s - daje więcej czasu na inicjalizację
+    attempt_respawn_reconnection: true
+    bond_respawn_max_duration: 10.0
