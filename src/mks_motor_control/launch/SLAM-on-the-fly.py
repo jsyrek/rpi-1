@@ -189,7 +189,7 @@ def generate_launch_description():
                     'use_sim_time': use_sim_time,
                     'autostart': autostart,
                     'node_names': ['slam_toolbox'],
-                    'bond_timeout': 120.0  # ⭐ Zwiększony do 120s - test czy SLAM Toolbox wysyła heartbeats
+                    'bond_timeout': 30.0   # ⭐ Zmniejszony do 30s - powinien wystarczyć dla SLAM Toolbox
                 }]
             )
         ]
