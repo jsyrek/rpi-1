@@ -253,5 +253,9 @@ velocity_smoother:
 collision_monitor:
   ros__parameters:
     enabled: False
-    observation_sources: []
+    observation_sources:
+      scan:
+        type: "sensor_msgs/msg/LaserScan"
+        topic: "/scan"
+        enabled: False
     polygons: []
