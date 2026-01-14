@@ -253,9 +253,20 @@ velocity_smoother:
 collision_monitor:
   ros__parameters:
     enabled: False
-    observation_sources:
-      scan:
-        type: "sensor_msgs/msg/LaserScan"
-        topic: "/scan"
-        enabled: False
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+    cmd_vel_in_topic: "cmd_vel_smoothed"
+    cmd_vel_out_topic: "cmd_vel"
+    source_timeout: 5.0
+    # ⭐ OBOWIĄZKOWY PARAMETR - lista stringów, nie słownik!
+    observation_sources: ["scan"]
+    # Konfiguracja źródła danych (osobna sekcja)
+    scan:
+      type: "scan"  # "scan" dla LaserScan, "pointcloud" dla PointCloud2
+      topic: "/scan"
+      min_height: 0.05
+      max_height: 0.6
+      enabled: False  # Wyłączone, bo collision_monitor jest wyłączony
+      source_timeout: 0.2
+    # Strefy bezpieczeństwa (pusta lista jest OK)
     polygons: []
