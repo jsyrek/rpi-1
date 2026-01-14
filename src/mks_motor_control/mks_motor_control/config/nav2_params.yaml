@@ -15,8 +15,12 @@ bt_navigator:
       plugin: "nav2_bt_navigator::NavigateToPoseNavigator"
     navigate_through_poses:
       plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"
-    # ⭐ KLUCZOWE: Jawnie pusta lista - Nav2 wymaga tej struktury
-    plugin_lib_names: []
+    # ⭐ MINIMALNE WYMAGANE pluginy dla bt_navigator
+    plugin_lib_names:
+      - nav2_compute_path_to_pose_action_bt_node
+      - nav2_compute_path_through_poses_action_bt_node
+      - nav2_smooth_path_action_bt_node
+      - nav2_follow_path_action_bt_node
 
 controller_server:
   ros__parameters:
