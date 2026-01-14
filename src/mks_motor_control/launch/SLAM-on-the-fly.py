@@ -42,6 +42,7 @@ def generate_launch_description():
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='screen',
+        respawn=False,  # ⭐ WAŻNE: zapobiega double shutdown
         parameters=[{
             'robot_description': open(urdf_path).read(),
             'use_sim_time': use_sim_time
@@ -56,6 +57,7 @@ def generate_launch_description():
         package='mks_motor_control',
         executable='motor_driver_speed',
         output='screen',
+        respawn=False,  # ⭐ WAŻNE: zapobiega double shutdown
         parameters=[controller_config]
     )
 
@@ -67,6 +69,7 @@ def generate_launch_description():
         executable='static_transform_publisher',
         name='base_to_unilidar_imu_initial',
         output='screen',
+        respawn=False,  # ⭐ WAŻNE: zapobiega double shutdown
         arguments=['0.1', '0', '0.2', '1.9635', '0', '0', 'base_link', 'unilidar_imu_initial']  # x y z yaw pitch roll: yaw=112.5° (1.9635 rad) around Z-axis
     )
 
@@ -78,6 +81,7 @@ def generate_launch_description():
         executable='static_transform_publisher',
         name='odom_to_base_link_static',
         output='screen',
+        respawn=False,  # ⭐ WAŻNE: zapobiega double shutdown
         arguments=['0', '0', '0', '0', '0', '0', 'odom', 'base_link']
     )
 
@@ -87,6 +91,7 @@ def generate_launch_description():
         executable='unitree_lidar_ros2_node',
         name='unitree_lidar_l2',
         output='screen',
+        respawn=False,  # ⭐ WAŻNE: zapobiega double shutdown
         parameters=[{
             'initialize_type': 2,
             'work_mode': 1,
@@ -109,8 +114,9 @@ def generate_launch_description():
                 executable='pointcloud_to_laserscan_node',
                 name='pointcloud_to_laserscan',
                 output='screen',
+                respawn=False,  # ⭐ WAŻNE: zapobiega double shutdown
                 parameters=[{
-                    'target_frame': 'unilidar_lidar',  # Same as cloud frame - no TF needed
+                    # ⭐ USUNIĘTE: target_frame - cloud już w poprawnym frame (unilidar_lidar)
                     'transform_tolerance': 0.1,
                     'min_height': -2.0,
                     'max_height': 2.0,
@@ -140,6 +146,7 @@ def generate_launch_description():
                 executable='scan_throttle',
                 name='scan_throttle',
                 output='screen',
+                respawn=False,  # ⭐ WAŻNE: zapobiega double shutdown
                 parameters=[{
                     'throttle_rate': 5.0,  # Hz
                     'input_topic': '/scan',
@@ -159,6 +166,7 @@ def generate_launch_description():
                 executable='async_slam_toolbox_node',
                 name='slam_toolbox',
                 output='screen',
+                respawn=False,  # ⭐ WAŻNE: zapobiega double shutdown
                 parameters=[
                     slam_params_file,
                     {'use_sim_time': use_sim_time}
@@ -176,6 +184,7 @@ def generate_launch_description():
                 executable='lifecycle_manager',
                 name='lifecycle_manager_slam',
                 output='screen',
+                respawn=False,  # ⭐ WAŻNE: zapobiega double shutdown
                 parameters=[{
                     'use_sim_time': use_sim_time,
                     'autostart': autostart,

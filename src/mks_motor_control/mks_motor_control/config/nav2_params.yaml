@@ -259,14 +259,21 @@ collision_monitor:
     cmd_vel_out_topic: "cmd_vel"
     source_timeout: 5.0
     # ⭐ OBOWIĄZKOWY PARAMETR - lista stringów, nie słownik!
-    observation_sources: ["scan"]
+    observation_sources: ["scan_throttled"]
     # Konfiguracja źródła danych (osobna sekcja)
-    scan:
+    scan_throttled:
       type: "scan"  # "scan" dla LaserScan, "pointcloud" dla PointCloud2
-      topic: "/scan"
+      topic: "/scan_throttled"
       min_height: 0.05
       max_height: 0.6
       enabled: False  # Wyłączone, bo collision_monitor jest wyłączony
       source_timeout: 0.2
-    # Strefy bezpieczeństwa (pusta lista jest OK)
-    polygons: []
+    # ⭐ OBOWIĄZKOWE - polygons nie może być puste, musi mieć definicję
+    polygons: ["StopZone"]
+    StopZone:
+      type: "circle"
+      radius: 0.3
+      action_type: "stop"
+      min_points: 3
+      enabled: False  # Wyłączone, bo collision_monitor jest wyłączony
+      visualize: false
