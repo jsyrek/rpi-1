@@ -15,20 +15,8 @@ bt_navigator:
       plugin: "nav2_bt_navigator::NavigateToPoseNavigator"
     navigate_through_poses:
       plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"
-    # ⭐ RADYKALNE ROZWIĄZANIE: Pusta lista plugin_lib_names - unikamy konfliktów "already registered"
-    # Dodamy tylko te pluginy, które są naprawdę potrzebne (zobaczymy błędy "not registered" jeśli coś brakuje)
-    plugin_lib_names:
-      # Minimal required plugins for bt_navigator to work
-      - nav2_is_stuck_condition_bt_node
-      - nav2_goal_reached_condition_bt_node
-      - nav2_goal_updated_condition_bt_node
-      - nav2_globally_updated_goal_condition_bt_node
-      - nav2_is_path_valid_condition_bt_node
-      - nav2_initial_pose_received_condition_bt_node
-      - nav2_reinitialize_global_localization_service_bt_node
-      - nav2_rate_controller_bt_node
-      - nav2_distance_controller_bt_node
-      - nav2_speed_controller_bt_node
+    # ⭐ KLUCZOWE: Jawnie pusta lista - Nav2 wymaga tej struktury
+    plugin_lib_names: []
 
 controller_server:
   ros__parameters:
