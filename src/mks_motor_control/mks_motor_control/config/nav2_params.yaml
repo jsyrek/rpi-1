@@ -26,7 +26,8 @@ bt_navigator:
     # - nav2_wait_action_bt_node (używane przez behavior_server)
     # - nav2_back_up_action_bt_node (używane przez behavior_server)
     # - nav2_drive_on_heading_bt_node (używane przez behavior_server)
-    - nav2_clear_costmap_service_bt_node
+    # ⭐ ZAKOMENTOWANE: nav2_clear_costmap_service_bt_node - może powodować duplikację ID [ClearEntireCostmap]
+    # - nav2_clear_costmap_service_bt_node
     - nav2_is_stuck_condition_bt_node
     - nav2_goal_reached_condition_bt_node
     - nav2_goal_updated_condition_bt_node
